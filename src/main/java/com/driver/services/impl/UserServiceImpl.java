@@ -23,29 +23,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(String username, String password, String countryName) throws Exception{
-        boolean isPresent=false;
+        //create a user of given country. The originalIp of the user should be "countryCode.userId" and return the user.
+        // Note that right now user is not connected and thus connected would be false and maskedIp would be null
+        //Note that the userId is created automatically by the repository layer
+        User user = new User();
+        Country country = new Country();
 
-        String CountryNameInUpperCase= countryName.toUpperCase();
-
-        for(CountryName countryName1:CountryName.values()){
-            if(countryName1.toString().equals(CountryNameInUpperCase)){
-                isPresent=true;
-            }
-        }
-        if(!isPresent){
-            throw new Exception("Country not found");
-        }
-        Country country=new Country();
-        country.setCountryName(CountryName.valueOf(CountryNameInUpperCase));
-        country.setCode(CountryName.valueOf(CountryNameInUpperCase).toCode());
-
-        User user=new User();
         user.setUsername(username);
         user.setPassword(password);
-        user.setOriginalCountry(country);
-        user.setConnected(false);
+
+        countryName = countryName.toUpperCase();
+        if(countryName.equals("IND") || countryName.equals("AUS") || countryName.equals("USA") || countryName.equals("CHI") || countryName.equals("JPN")) {
+            country.setCountryName(CountryName.valueOf(countryName));
+            country.setCode(CountryName.valueOf(countryName).toCode());
+        } else {
+            throw new Exception("Country not found");
+        }
+
         country.setUser(user);
-        user.setOriginalIp(country.getCode()+"."+user.getId());
+        user.setOriginalCountry(country);
+        user.setMaskedIp(null);
+        user.setConnected(Boolean.FALSE);
+
+
+        user.setOriginalIp(country.getCode()+"."+userRepository3.save(user).getId());
+
         userRepository3.save(user);
 
         return user;
@@ -53,13 +55,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User subscribe(Integer userId, Integer serviceProviderId) {
-        User user=userRepository3.findById(userId).get();
-        ServiceProvider serviceProvider=serviceProviderRepository3.findById(serviceProviderId).get();
+        User user = userRepository3.findById(userId).get();
+
+        ServiceProvider serviceProvider = serviceProviderRepository3.findById(serviceProviderId).get();
 
         user.getServiceProviderList().add(serviceProvider);
         serviceProvider.getUsers().add(user);
 
         serviceProviderRepository3.save(serviceProvider);
+
         return user;
     }
 }

@@ -11,8 +11,6 @@ import com.driver.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
@@ -26,8 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin register(String username, String password) {
-        Admin admin=new Admin();
-
+        Admin admin = new Admin();
         admin.setUsername(username);
         admin.setPassword(password);
 
@@ -37,41 +34,40 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
-        Admin admin=adminRepository1.findById(adminId).get();
-
-        ServiceProvider serviceProvider=new ServiceProvider();
-        serviceProvider.setName(providerName);
+        Admin admin = adminRepository1.findById(adminId).get();
+        ServiceProvider serviceProvider = new ServiceProvider();
         serviceProvider.setAdmin(admin);
-        admin.getServiceProviders().add(serviceProvider);
+        serviceProvider.setName(providerName);
 
+        admin.getServiceProviders().add(serviceProvider);
         adminRepository1.save(admin);
+
         return admin;
     }
 
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
-        boolean isPresent = false;
+        //add a country under the serviceProvider and return respective service provider
+        //country name would be a 3-character string out of ind, aus, usa, chi, jpn. Each character can be in uppercase or lowercase.
+        // You should create a new Country object based on the given country name and add it to the country list of the service provider.
+        // Note that the user attribute of the country in this case would be null.
+        //In case country name is not amongst the above mentioned strings, throw "Country not found" exception
+        ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
 
-        String CountryNameInUpperCase=countryName.toUpperCase();
+        Country country = new Country();
 
-        for(CountryName countryName1:CountryName.values()){
-            if(countryName1.toString().equals(CountryNameInUpperCase)){
-                isPresent = true;
-            }
-        }
-        if(!isPresent){
+        countryName = countryName.toUpperCase();
+        if(countryName.equals("IND") || countryName.equals("AUS") || countryName.equals("USA") || countryName.equals("CHI") || countryName.equals("JPN")) {
+            country.setCountryName(CountryName.valueOf(countryName));
+            country.setCode(CountryName.valueOf(countryName).toCode());
+        } else {
             throw new Exception("Country not found");
         }
-        ServiceProvider serviceProvider=serviceProviderRepository1.findById(serviceProviderId).get();
-
-        Country country=new Country();
-
-        country.setCountryName(CountryName.valueOf(CountryNameInUpperCase));
-        country.setCode(CountryName.valueOf(CountryNameInUpperCase).toCode());
         country.setServiceProvider(serviceProvider);
         serviceProvider.getCountryList().add(country);
 
         serviceProviderRepository1.save(serviceProvider);
+
         return serviceProvider;
     }
 }

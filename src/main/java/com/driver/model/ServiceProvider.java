@@ -5,45 +5,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "serviceProvider")
+@Table(name = "SERVICE_PROVIDERS")
 public class ServiceProvider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
 
-    @JoinColumn
     @ManyToOne
+    @JoinColumn
     private Admin admin;
 
+    @ManyToMany(mappedBy = "serviceProviderList", cascade = CascadeType.ALL)
+    private List<User> users = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "serviceProviderList",cascade = CascadeType.ALL)
-    private List<User> users=new ArrayList<>();
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
+    private List<Connection> connectionList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    private List<Country> countryList=new ArrayList<>();
-
-    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    private List<Connection> connectionList=new ArrayList<>();
-
-    public ServiceProvider() {
-    }
-
-    public ServiceProvider(int id, String name, Admin admin, List<User> users, List<Country> countryList, List<Connection> connectionList) {
-        this.id = id;
-        this.name = name;
-        this.admin = admin;
-        this.users = users;
-        this.countryList = countryList;
-        this.connectionList = connectionList;
-    }
+    @OneToMany(mappedBy = "serviceProvider", cascade = CascadeType.ALL)
+    private List<Country> countryList = new ArrayList<>();
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,19 +58,19 @@ public class ServiceProvider {
         this.users = users;
     }
 
-    public List<Country> getCountryList() {
-        return countryList;
-    }
-
-    public void setCountryList(List<Country> countryList) {
-        this.countryList = countryList;
-    }
-
     public List<Connection> getConnectionList() {
         return connectionList;
     }
 
     public void setConnectionList(List<Connection> connectionList) {
         this.connectionList = connectionList;
+    }
+
+    public List<Country> getCountryList() {
+        return countryList;
+    }
+
+    public void setCountryList(List<Country> countryList) {
+        this.countryList = countryList;
     }
 }
