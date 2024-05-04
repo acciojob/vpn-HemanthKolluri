@@ -1,4 +1,4 @@
-package com.driver.controllers;
+package java.com.driver.controllers;
 
 import com.driver.model.User;
 import com.driver.services.impl.ConnectionServiceImpl;

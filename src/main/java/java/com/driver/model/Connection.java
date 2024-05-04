@@ -1,4 +1,7 @@
-package com.driver.model;
+package java.com.driver.model;
+
+import com.driver.model.ServiceProvider;
+import com.driver.model.User;
 
 import javax.persistence.*;
 
@@ -11,16 +14,16 @@ public class Connection {
 
     @JoinColumn
     @ManyToOne
-    private User user;
+    private com.driver.model.User user;
 
     @JoinColumn
     @ManyToOne
-    private ServiceProvider serviceProvider;
+    private com.driver.model.ServiceProvider serviceProvider;
 
     public Connection() {
     }
 
-    public Connection(int id, User user, ServiceProvider serviceProvider) {
+    public Connection(int id, com.driver.model.User user, com.driver.model.ServiceProvider serviceProvider) {
         this.id = id;
         this.user = user;
         this.serviceProvider = serviceProvider;
@@ -34,7 +37,7 @@ public class Connection {
         this.id = id;
     }
 
-    public User getUser() {
+    public com.driver.model.User getUser() {
         return user;
     }
 
@@ -42,7 +45,7 @@ public class Connection {
         this.user = user;
     }
 
-    public ServiceProvider getServiceProvider() {
+    public com.driver.model.ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
 

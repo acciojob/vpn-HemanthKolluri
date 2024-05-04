@@ -1,6 +1,9 @@
-package com.driver.services.impl;
+package java.com.driver.services.impl;
 
-import com.driver.model.*;
+import com.driver.model.Connection;
+import com.driver.model.CountryName;
+import com.driver.model.ServiceProvider;
+import com.driver.model.User;
 import com.driver.repository.ConnectionRepository;
 import com.driver.repository.ServiceProviderRepository;
 import com.driver.repository.UserRepository;

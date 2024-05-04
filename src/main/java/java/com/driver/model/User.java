@@ -1,5 +1,8 @@
-package com.driver.model;
+package java.com.driver.model;
 
+
+import com.driver.model.Connection;
+import com.driver.model.ServiceProvider;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,12 +29,12 @@ public class User {
 
     @JoinColumn
     @ManyToMany
-    private List<ServiceProvider> serviceProviderList=new ArrayList<>();
+    private List<com.driver.model.ServiceProvider> serviceProviderList=new ArrayList<>();
 
     public User() {
     }
 
-    public User(int id, String username, String password, String originalIp, String maskedIp, Boolean connected, Country originalCountry, List<Connection> connectionList, List<ServiceProvider> serviceProviderList) {
+    public User(int id, String username, String password, String originalIp, String maskedIp, Boolean connected, Country originalCountry, List<Connection> connectionList, List<com.driver.model.ServiceProvider> serviceProviderList) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -107,7 +110,7 @@ public class User {
         this.connectionList = connectionList;
     }
 
-    public List<ServiceProvider> getServiceProviderList() {
+    public List<com.driver.model.ServiceProvider> getServiceProviderList() {
         return serviceProviderList;
     }
 

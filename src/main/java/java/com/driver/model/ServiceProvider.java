@@ -1,4 +1,8 @@
-package com.driver.model;
+package java.com.driver.model;
+
+import com.driver.model.Admin;
+import com.driver.model.Connection;
+import com.driver.model.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,5 +1,9 @@
 // Note: Do not write @Enumerated annotation above CountryName in this model.
-package com.driver.model;
+package java.com.driver.model;
+
+import com.driver.model.CountryName;
+import com.driver.model.ServiceProvider;
+import com.driver.model.User;
 
 import javax.persistence.*;
 
@@ -10,19 +14,19 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer countryId;
-    private CountryName countryName;
+    private com.driver.model.CountryName countryName;
     private String code;
     @JoinColumn
     @OneToOne
-    private User user;
+    private com.driver.model.User user;
     @JoinColumn
     @ManyToOne
-    private ServiceProvider serviceProvider;
+    private com.driver.model.ServiceProvider serviceProvider;
 
     public Country() {
     }
 
-    public Country(Integer countryId, CountryName countryName, String code, User user, ServiceProvider serviceProvider) {
+    public Country(Integer countryId, com.driver.model.CountryName countryName, String code, com.driver.model.User user, com.driver.model.ServiceProvider serviceProvider) {
         this.countryId = countryId;
         this.countryName = countryName;
         this.code = code;
@@ -38,7 +42,7 @@ public class Country {
         this.countryId = countryId;
     }
 
-    public CountryName getCountryName() {
+    public com.driver.model.CountryName getCountryName() {
         return countryName;
     }
 
@@ -54,7 +58,7 @@ public class Country {
         this.code = code;
     }
 
-    public User getUser() {
+    public com.driver.model.User getUser() {
         return user;
     }
 
@@ -62,7 +66,7 @@ public class Country {
         this.user = user;
     }
 
-    public ServiceProvider getServiceProvider() {
+    public com.driver.model.ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
 
