@@ -1,13 +1,10 @@
 package com.driver.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "USERS")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,24 +12,24 @@ public class User {
     private String username;
     private String password;
     private String originalIp;
+    private Boolean connected;
     private String maskedIp;
-    private Boolean connected = false;
+
+    @JoinColumn
+    @ManyToMany
+    private List<ServiceProvider> serviceProviderList;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Country originalCountry;
-
-    @ManyToMany
-    @JoinColumn
-    private List<ServiceProvider> serviceProviderList = new ArrayList<>();
+    private Country originalCountry; //This field remains unaffected even when vpn connection is made
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Connection> connectionList = new ArrayList<>();
+    private List<Connection> connectionList;
 
     public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -60,14 +57,6 @@ public class User {
         this.originalIp = originalIp;
     }
 
-    public String getMaskedIp() {
-        return maskedIp;
-    }
-
-    public void setMaskedIp(String maskedIp) {
-        this.maskedIp = maskedIp;
-    }
-
     public Boolean getConnected() {
         return connected;
     }
@@ -76,12 +65,12 @@ public class User {
         this.connected = connected;
     }
 
-    public Country getOriginalCountry() {
-        return originalCountry;
+    public String getMaskedIp() {
+        return maskedIp;
     }
 
-    public void setOriginalCountry(Country originalCountry) {
-        this.originalCountry = originalCountry;
+    public void setMaskedIp(String maskedIp) {
+        this.maskedIp = maskedIp;
     }
 
     public List<ServiceProvider> getServiceProviderList() {
@@ -90,6 +79,14 @@ public class User {
 
     public void setServiceProviderList(List<ServiceProvider> serviceProviderList) {
         this.serviceProviderList = serviceProviderList;
+    }
+
+    public Country getOriginalCountry() {
+        return originalCountry;
+    }
+
+    public void setOriginalCountry(Country originalCountry) {
+        this.originalCountry = originalCountry;
     }
 
     public List<Connection> getConnectionList() {
